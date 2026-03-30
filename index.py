@@ -43,10 +43,6 @@ def account():
     else:
         return render_template("account.html")
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
 import os
 
 if __name__ == "__main__":
