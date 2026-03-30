@@ -1,0 +1,19 @@
+<h1>次方與根號計算</h1>
+
+<form method="post">
+    x: <input type="text" name="x"><br>
+    y: <input type="text" name="y"><br>
+    運算:
+    <select name="opt">
+        <option value="a">次方</option>
+        <option value="b">根號</option>
+    </select>
+    <input type="submit" value="計算">
+</form>
+
+{% if result %}
+<h2>結果：{{ result }}</h2>
+{% endif %}
+
+<br>
+<a href="/">返回首頁</a>
