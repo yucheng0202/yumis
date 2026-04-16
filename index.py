@@ -51,23 +51,37 @@ def spider1():
         Result += i.text +  i.get("href") + "<br>"
     return Result
 
+@app.route("/")
+def home():
+    return render_template("hello.html", result="")
 
 @app.route("/read2")
 def read2():
-    Result = ""
-    keyword = "楊"
+    keyword = request.args.get("keyword")
+
+    if keyword is None or keyword.strip() == "":
+        return render_template("hello.html", result="請輸入老師姓名關鍵字")
+
     db = firestore.client()
-    collection_ref = db.collection("靜宜資管2026B")    
+    collection_ref = db.collection("靜宜資管2026B")
     docs = collection_ref.get()
+
+    result = ""
+
     for doc in docs:
         teacher = doc.to_dict()
-        if keyword in teacher["name"]:
-            Result += str(teacher) + "<br>"    
-    return Result
+        print("teacher =", teacher)
 
-    if Result == "":
-        Result +="抱歉,查無此關鍵字姓名之老師資料"
-    return Result
+        if "name" in teacher and "lab" in teacher:
+            if keyword in str(teacher["name"]):
+                result += f"{teacher['name']} 老師的研究室在 {teacher['lab']}<br>"
+
+    if result == "":
+        result = f"查無資料，關鍵字是：{keyword}"
+
+    result = f"查詢結果（關鍵字：{keyword}）：<br><br>" + result
+
+    return render_template("hello.html", result=result)
 
 
 @app.route("/read")
