@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>電影查詢</title>
+</head>
+<body>
+    <h2>電影查詢</h2>
+
+    <form action="/movie1" method="get">
+        請輸入片名關鍵字:
+        <input type="text" name="q">
+        <input type="submit" value="查詢">
+    </form>
+
+    <hr>
+
+    {{ result | safe }}
+</body>
+</html>
