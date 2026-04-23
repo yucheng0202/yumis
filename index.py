@@ -39,22 +39,32 @@ def index():
     link += "<a href=/movie1>即將上映電影</a><hr>"
     return link
 
+
 @app.route("/movie1")
 def movie1():
+    q = request.args.get("q", "")
     Result = ""
+
     url = "http://www.atmovies.com.tw/movie/next/"
     Data = requests.get(url)
     Data.encoding = "utf-8"
-    #print(Data.text)
-    sp = BeautifulSoup(Data.text, "html.parser")
-    result=sp.select(".filmListAllX li")
-    for item in result:
-        introduce = "http://www.atmovies.com.tw" + item.find("a").get("href")
-        Result += "<a href=" + introduce + ">" + item.find("img").get("alt") + "</a><br>"
-        post = "http://www.atmovies.com.tw" + item.find("img").get("src")
-        Result += "<img src=" + post + "> </img><br><br>"
-    return Result
 
+    sp = BeautifulSoup(Data.text, "html.parser")
+    results = sp.select(".filmListAllX li")
+
+    for item in results:
+        title = item.find("img").get("alt")
+        if q in title:
+            introduce = "http://www.atmovies.com.tw" + item.find("a").get("href")
+            post = "http://www.atmovies.com.tw" + item.find("img").get("src")
+
+            Result += "<a href='" + introduce + "'>" + title + "</a><br>"
+            Result += "<img src='" + post + "'><br><br>"
+
+    if Result == "":
+        Result = "查無結果"
+
+    return render_template("hello2.html", result=Result)
 
 @app.route("/spider1")
 def spider1():
