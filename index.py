@@ -50,6 +50,9 @@ def road():
 
     for item in jsondata:
         Result += item["路口名稱"] + ",原因:" + item["主要肇因"] + "<br>"
+
+    total_count = len(jsondata)
+    Result += f"<br><b>總計事件數:{total_count} 件</b>"
     
 
     return Result
