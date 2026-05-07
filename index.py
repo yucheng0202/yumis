@@ -39,7 +39,21 @@ def index():
     link += "<a href=/movie1>即將上映電影</a><hr>"
     link += "<a href=/spiderMovie>爬取即將上映電影</a><hr>"
     link += "<a href=/searchMovie>查詢即將上映電影</a><hr>"
+    link += "<a href=/road>台中市十大肇事路口</a><hr>"
     return link
+
+@app.route("/road")
+def road():
+    Result = "<h1>台中市十大肇事路口(113年10月)</h1><br>"
+    with open("臺中市113年10月份十大高肇事路口.JSON", "r", encoding="utf-8") as file:
+        jsondata = json.load(file)
+
+    for item in jsondata:
+        Result += (item["路口名稱"], "原因:", item["主要肇因"])
+    
+
+    return Result
+
 @app.route("/searchMovie")
 def searchMovie():
     keyword = request.args.get("q", "").strip()
