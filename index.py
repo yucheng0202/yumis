@@ -90,7 +90,7 @@ def road2():
 
 @app.route("/road")
 def road():
-    Result = "<h1>台中市十大肇事路口(113年10月)</h1><br>"
+    Result = "<h1>台中市十大肇事路口(113年10月)作者:徐宇呈</h1><br>"
     with open("臺中市113年10月份十大高肇事路口.JSON", "r", encoding="utf-8") as file:
         jsondata = json.load(file)
 
