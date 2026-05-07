@@ -40,7 +40,53 @@ def index():
     link += "<a href=/spiderMovie>爬取即將上映電影</a><hr>"
     link += "<a href=/searchMovie>查詢即將上映電影</a><hr>"
     link += "<a href=/road>台中市十大肇事路口</a><hr>"
+    link += "<a href=/road2>查詢各縣市天氣預報</a><hr>"
     return link
+@app.route("/road2")
+def road2():
+
+    city = request.args.get("city", "臺中市")
+    city = city.replace("台", "臺")
+
+    url = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON&locationName=" + city
+
+    Data = requests.get(url, verify=False)
+
+    JsonData = json.loads(Data.text)
+
+    Result = """
+    <h1>各縣市天氣查詢</h1>
+
+    <form action="/road2" method="get">
+
+        <input type="text" name="city" placeholder="請輸入縣市">
+
+        <button type="submit">查詢</button>
+
+    </form>
+
+    <hr>
+    """
+
+    location = JsonData["records"]["location"]
+
+    if len(location) > 0:
+
+        Weather = location[0]["weatherElement"][0]["time"][0]["parameter"]["parameterName"]
+
+        Rain = location[0]["weatherElement"][1]["time"][0]["parameter"]["parameterName"]
+
+        Result += "<h2>" + city + " 最新天氣預報</h2>"
+
+        Result += "天氣：" + Weather + "<br>"
+
+        Result += "降雨機率：" + Rain + "%<br>"
+
+    else:
+
+        Result += "查無此縣市"
+
+    return Result
 
 @app.route("/road")
 def road():
