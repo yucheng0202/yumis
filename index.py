@@ -49,7 +49,7 @@ def road():
         jsondata = json.load(file)
 
     for item in jsondata:
-        Result += (item["路口名稱"], "原因:", item["主要肇因"])
+        Result += item["路口名稱"] + ",原因:" + item["主要肇因"] + "<br>"
     
 
     return Result
